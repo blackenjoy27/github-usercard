@@ -5,15 +5,19 @@ import axios from "axios";
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
-
+let cards = document.querySelector(".cards");
 axios
 .get("https://api.github.com/users/blackenjoy27")
 .then((res)=>{
-  
+
+  let data = createCard(res.data);
+  cards.appendChild(data);
 })
 .catch(e=>{
+  console.log("error");
   debugger
 })
+
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -39,8 +43,27 @@ axios
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = [    
+  "https://api.github.com/users/tetondan",
+  "https://api.github.com/users/dustinmyers",
+  "https://api.github.com/users/justsml",
+  "https://api.github.com/users/luishrd",
+  "https://api.github.com/users/bigknell]"
+];
 
+followersArray.forEach(followers=>{
+  axios
+  .get(followers)
+  .then((res)=>{
+
+    let data = createCard(res.data);
+    cards.appendChild(data);
+  })
+  .catch(e=>{
+    console.log("error");
+    debugger
+  })
+})
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
     Using DOM methods and properties, create and return the following markup:
@@ -73,7 +96,7 @@ function createCard (obj){
   let p0 = document.createElement("p"); p0.classList.add("username"); p0.textContent = obj.login;
   let p1 = document.createElement("p"); p1.textContent = `Location: ${obj.location}`;
   
-  let p2 = document.createElement("p"); p2.textContent = `Profile: /n`;
+  let p2 = document.createElement("p"); p2.textContent = `Profile: `;
   let a = document.createElement("a"); a.setAttribute("href", obj.html_url); a.textContent =obj.html_url;
   p2.appendChild(a); 
 
